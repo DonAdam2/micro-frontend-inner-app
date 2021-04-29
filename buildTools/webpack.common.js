@@ -166,7 +166,7 @@ module.exports = (env, options) => {
 				filename: 'remoteEntry.js',
 				//It defines modules to be exposed
 				exposes: {
-					'./App': path.join(PATHS.src, 'App'),
+					'./App': path.join(PATHS.src, 'RemoteApp'),
 				},
 				//It defines how modules are shared in the share scope
 				shared: ['react', 'react-dom'],

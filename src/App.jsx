@@ -22,29 +22,32 @@ const TestComponent = lazy(() => import('./js/containers/TestComponent'));
 
 const store = configureStore();
 
-const App = () => {
-	return (
-		<Provider store={store}>
-			<Suspense
-				fallback={
-					<div className="loader-wrapper">
-						<LoadingIcon />
-					</div>
-				}
-			>
-				<ErrorBoundary
-					FallbackComponent={ErrorBoundaryFallback}
-					onReset={() => {
-						//Reset the state of your app so the error doesn't happen again
-						console.log('Try again clicked');
-					}}
-				>
-					<Carousel slides={slides} isPageBackground />
-					<TestComponent />
-				</ErrorBoundary>
-			</Suspense>
-		</Provider>
-	);
-};
+const App = () => (
+	<Suspense
+		fallback={
+			<div className="loader-wrapper">
+				<LoadingIcon />
+			</div>
+		}
+	>
+		<ErrorBoundary
+			FallbackComponent={ErrorBoundaryFallback}
+			onReset={() => {
+				//Reset the state of your app so the error doesn't happen again
+				console.log('Try again clicked');
+			}}
+		>
+			<Carousel slides={slides} isPageBackground />
+			<TestComponent />
+		</ErrorBoundary>
+	</Suspense>
+);
 
-export default hot(App);
+//wrapper for locale development of the current app
+export const InnerApp = hot(() => (
+	<Provider store={store}>
+		<App />
+	</Provider>
+));
+
+export default App;

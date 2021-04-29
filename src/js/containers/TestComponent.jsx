@@ -28,7 +28,7 @@ const TestComponent = () => {
 					Testing the inner app store <strong>{testAction}</strong>
 				</p>
 				<button className="std-btn primary" onClick={() => dispatch(setTestAction())}>
-					Change inner textasdf
+					Change inner text
 				</button>
 			</div>
 		</div>

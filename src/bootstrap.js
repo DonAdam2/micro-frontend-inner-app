@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 //import meta image
 import './assets/images/metaImage.jpg';
 //root component
-import App from './App';
+import { InnerApp } from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<InnerApp />, document.getElementById('root'));
