@@ -65,9 +65,6 @@ module.exports = (env, options) => {
 		},
 		resolve: {
 			extensions: ['*', '.js', '.jsx'],
-			fallback: {
-				crypto: false,
-			},
 		},
 		module: {
 			rules: [
