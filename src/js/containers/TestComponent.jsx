@@ -10,25 +10,27 @@ const TestComponent = () => {
 		testAction = useSelector((state) => getTestAction({ state }));
 
 	return (
-		<div
-			className="container"
-			style={{
-				textAlign: 'center',
-				border: '4px dashed red',
-				paddingBottom: '1rem',
-				margin: '4rem auto',
-			}}
-		>
-			<h3>inner app</h3>
-			<p>
-				Current environment API of the inner app is <strong>{process.env.API_URL}</strong>
-			</p>
-			<p>
-				Testing the inner app store <strong>{testAction}</strong>
-			</p>
-			<button className="std-btn primary" onClick={() => dispatch(setTestAction())}>
-				Change inner textasdf
-			</button>
+		<div style={{ padding: '4rem 0' }}>
+			<div
+				className="container"
+				style={{
+					textAlign: 'center',
+					border: '4px dashed red',
+					paddingBottom: '1rem',
+					margin: '4rem auto',
+				}}
+			>
+				<h3>inner app</h3>
+				<p>
+					Current environment API of the inner app is <strong>{process.env.API_URL}</strong>
+				</p>
+				<p>
+					Testing the inner app store <strong>{testAction}</strong>
+				</p>
+				<button className="std-btn primary" onClick={() => dispatch(setTestAction())}>
+					Change inner textasdf
+				</button>
+			</div>
 		</div>
 	);
 };

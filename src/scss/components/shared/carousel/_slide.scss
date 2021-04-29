@@ -1,0 +1,114 @@
+.slideContent {
+  width: 250px;
+  height: 300px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: transform 0.5s ease-in-out;
+  opacity: 0.7;
+  display: grid;
+  align-content: center;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) translateX(calc(100% * var(--offset)))
+  rotateY(calc(-45deg * var(--dir)));
+  border-radius: 15px;
+}
+
+.slideContentInner {
+  transform-style: preserve-3d;
+  transform: translateZ(2rem);
+  transition: opacity 0.3s linear;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+
+  .slideSubtitle,
+  .slideTitle {
+    font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: 0.2ch;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .slideSubtitle::before {
+    content: "— ";
+  }
+
+  .slideDescription {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.2ch;
+  }
+}
+
+.slideBackground {
+  position: fixed !important;
+  top: 0;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  background-size: cover;
+  background-position: center center;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s linear, transform 0.3s ease-in-out;
+  pointer-events: none;
+  transform: translateX(calc(10% * var(--dir)));
+}
+
+.slide[data-active] {
+  z-index: 2;
+  pointer-events: auto;
+
+  .slideBackground {
+    opacity: 0.1;
+    transform: none;
+  }
+
+  .slideContentInner {
+    opacity: 1;
+  }
+
+  .slideContent {
+    --x: calc(var(--px) - 0.5);
+    --y: calc(var(--py) - 0.5);
+    opacity: 1;
+    transform: perspective(1000px);
+
+    &:hover {
+      transition: none;
+      transform: perspective(1000px) rotateY(calc(var(--x) * 45deg))
+      rotateX(calc(var(--y) * -45deg));
+    }
+  }
+}
+
+.slidesWrapper {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+
+  // > 768
+  @media (min-width: $tablet) {
+    width: 750px;
+  }
+  // > 992
+  @media (min-width: $laptop) {
+    width: 970px;
+  }
+  // > 1200
+  @media (min-width: $desktop) {
+    width: 1170px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    position: relative;
+  }
+}

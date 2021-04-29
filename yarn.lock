@@ -979,13 +979,6 @@
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
-"@module-federation/concat-runtime@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@module-federation/concat-runtime/-/concat-runtime-0.0.1.tgz#9dca0f12eba7fa584ce769302a4854ad461a8d6c"
-  integrity sha512-IwxPsmSU7HoUJn884ez7wwnndDcJZvaAzLAExr8Smf5DdIucSerYgqNSVAAMcezaUs/zoplsYyTc5BSUSQTrUw==
-  dependencies:
-    webpack-sources "^2.2.0"
-
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.4.tgz#d4b3549a5db5de2683e0c1071ab4f140904bbf69"
@@ -8640,7 +8633,7 @@ webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-sources@^2.0.0, webpack-sources@^2.1.1, webpack-sources@^2.2.0:
+webpack-sources@^2.0.0, webpack-sources@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-2.2.0.tgz#058926f39e3d443193b6c31547229806ffd02bac"
   integrity sha512-bQsA24JLwcnWGArOKUxYKhX3Mz/nK1Xf6hxullKERyktjNMC4x8koOeaDNTA2fEJ09BdWLbM/iTW0ithREUP0w==
