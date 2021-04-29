@@ -154,13 +154,13 @@ module.exports = (env, options) => {
 		plugins: [
 			new ModuleFederationPlugin({
 				//name of the current project
-				name: 'images_remote',
+				name: 'inner_app',
 				/*library.type: It defines the library type, var. The available
 	            options are var, module, assign, this, window, self, global,
 		        commonjs, commonjs2, commonjs-module, amd, amd-require, umd,
 		        umd2, jsonp, and system.*/
 				//library.name: it defines the library name
-				library: { type: 'var', name: 'images_remote' },
+				library: { type: 'var', name: 'inner_app' },
 				/*It defines the exposed filename, remoteEntry.js, using relative
 				path inside the output.path directory*/
 				filename: 'remoteEntry.js',
