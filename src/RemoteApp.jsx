@@ -22,7 +22,17 @@ const RemoteInnerApp = ({ store }) => {
 		}
 	}, [store]);
 
-	return <Provider store={store || {}}>{isLoaded ? <App /> : <LoadingIcon />}</Provider>;
+	return (
+		<Provider store={store || {}}>
+			{isLoaded ? (
+				<App />
+			) : (
+				<div className="d-flex justify-content-center">
+					<LoadingIcon />
+				</div>
+			)}
+		</Provider>
+	);
 };
 
 export default RemoteInnerApp;
