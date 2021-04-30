@@ -1,1 +1,1 @@
-export const getTestAction = ({ state }) => state.app.testString;
+export const getTestAction = ({ state }) => state.innerApp.innerTestString;

@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
+//slices
 import app from './app/reducers/AppReducer';
 
-const rootReducer = combineReducers({
-	app,
-});
+export const reducerSlices = {
+	innerApp: app,
+};
+
+const rootReducer = combineReducers(reducerSlices);
 
 export default rootReducer;

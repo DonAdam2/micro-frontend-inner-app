@@ -1,21 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 //root reducer
-import rootReducer from './js/store/rootReducer';
+import { reducerSlices } from './js/store/rootReducer';
 //app
 import App from './App';
+//components
+import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
 const RemoteInnerApp = ({ store }) => {
+	const [isLoaded, setIsLoaded] = useState(false);
+
 	useEffect(() => {
-		store.injectReducer('innerApp', rootReducer);
+		store.injectReducer(reducerSlices);
 	}, [store]);
 
-	return (
-		<Provider store={store || {}}>
-			<App />
-		</Provider>
-	);
+	useEffect(() => {
+		const state = store.getState ? store.getState() : {};
+		if (state.innerApp) {
+			setIsLoaded(true);
+		}
+	}, [store]);
+
+	return <Provider store={store || {}}>{isLoaded ? <App /> : <LoadingIcon />}</Provider>;
 };
 
 export default RemoteInnerApp;
