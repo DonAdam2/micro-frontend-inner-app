@@ -50,19 +50,6 @@ module.exports = (env, options) => {
 			chunkFilename: jsSubDirectory + '[name].[contenthash:8].js',
 			publicPath: 'auto',
 		},
-		optimization: {
-			// used to avoid duplicated dependencies from node modules
-			splitChunks: {
-				cacheGroups: {
-					vendor: {
-						test: /[\\/]node_modules[\\/]/,
-						name: 'vendor',
-						enforce: true,
-						chunks: 'all',
-					},
-				},
-			},
-		},
 		resolve: {
 			extensions: ['*', '.js', '.jsx'],
 		},

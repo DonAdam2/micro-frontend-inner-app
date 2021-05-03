@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 //font awesome
-/*import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-solid-svg-icons';*/
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/pro-solid-svg-icons';
 //components
 import Slide from './Slide';
 
@@ -21,8 +21,7 @@ const Carousel = ({ slides, isPageBackground }) => {
 		<section className="slidesWrapper">
 			<div className="slides">
 				<button className="prevSlideBtn" onClick={handlePrevSlide}>
-					{/*<FontAwesomeIcon icon={faChevronLeft} />*/}
-					Prev
+					<FontAwesomeIcon icon={faChevronLeft} />
 				</button>
 
 				{[...slides, ...slides, ...slides].map((slide, i) => {
@@ -47,8 +46,7 @@ const Carousel = ({ slides, isPageBackground }) => {
 					}
 				})}
 				<button className="nextSlideBtn" onClick={handleNextSlide}>
-					{/*<FontAwesomeIcon icon={faChevronRight} />*/}
-					Next
+					<FontAwesomeIcon icon={faChevronRight} />
 				</button>
 			</div>
 		</section>
