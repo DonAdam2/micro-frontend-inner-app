@@ -8,11 +8,15 @@ import App from './App';
 import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
-const RemoteInnerApp = ({ store }) => {
+const RemoteInnerApp = ({
+	store,
+	// addMiddleWares
+}) => {
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	useEffect(() => {
 		store.injectReducer(reducerSlices);
+		// addMiddleWares([middleWare1, middleWare2]);
 	}, [store]);
 
 	useEffect(() => {
