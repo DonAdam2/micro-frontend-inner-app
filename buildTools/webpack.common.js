@@ -70,7 +70,7 @@ module.exports = (env, options) => {
 						loader: 'file-loader',
 						options: {
 							name: '[name].[contenthash].[ext]',
-							outputPath: 'assets/fonts',
+							outputPath: `${isDevelopment ? '' : '/'}assets/fonts`,
 							publicPath: isDevelopment ? fullDevServerUrl + 'assets/fonts' : '',
 						},
 					},
@@ -115,7 +115,7 @@ module.exports = (env, options) => {
 							options: {
 								ident: 'postcss',
 								sourceMap: isDevelopment,
-								plugins: [autoprefixer()],
+								plugins: [autoprefixer],
 							},
 						},
 						{

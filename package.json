@@ -10,7 +10,7 @@
 	"scripts": {
 		"start": "webpack serve --mode=development --config buildTools/webpack.dev.js",
 		"build": "webpack --mode=production  --config buildTools/webpack.prod.js --progress --color",
-		"build:serve": "serve dist -p 8081",
+		"build:serve": "serve dist --cors -p 8081",
 		"analyze-bundle": "webpack --mode=production --config buildTools/webpack.prod.js --json > stats.json && webpack-bundle-analyzer stats.json dist"
 	},
 	"author": "Adam Morsi",
@@ -36,7 +36,7 @@
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"eslint-webpack-plugin": "^2.5.4",
 		"file-loader": "^6.2.0",
-		"glob": "^7.1.6",
+		"glob": "^7.1.7",
 		"html-webpack-plugin": "^5.3.1",
 		"image-webpack-loader": "^7.0.1",
 		"mini-css-extract-plugin": "^1.6.0",
