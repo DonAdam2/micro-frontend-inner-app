@@ -9,7 +9,7 @@ const path = require('path'),
 	MiniCssExtractPlugin = require('mini-css-extract-plugin'),
 	autoprefixer = require('autoprefixer'),
 	EsLintPlugin = require('eslint-webpack-plugin'),
-	ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin'),
+	{ ModuleFederationPlugin } = require('webpack').container,
 	//constants
 	{
 		port,
