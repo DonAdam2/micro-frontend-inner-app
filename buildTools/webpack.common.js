@@ -10,6 +10,7 @@ const path = require('path'),
 	autoprefixer = require('autoprefixer'),
 	EsLintPlugin = require('eslint-webpack-plugin'),
 	{ ModuleFederationPlugin } = require('webpack').container,
+	{ MFLiveReloadPlugin } = require('@module-federation/fmr'),
 	//constants
 	{
 		port,
@@ -135,6 +136,16 @@ module.exports = (env, options) => {
 			],
 		},
 		plugins: [
+			...(isDevelopment
+				? [
+						//required for module federation hot reload
+						new MFLiveReloadPlugin({
+							port, // the port your app runs on
+							container: 'inner_app', // the name of your app, must be unique
+							standalone: false, // false uses chrome extension
+						}),
+				  ]
+				: []),
 			new ModuleFederationPlugin({
 				//name of the current project
 				name: 'inner_app',

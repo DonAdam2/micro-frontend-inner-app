@@ -1,5 +1,5 @@
 module.exports = {
-	port: '3001',
+	port: 3001,
 	devServer: 'http://localhost',
 	rootDirectory: 'src',
 	outputDirectory: 'dist',
