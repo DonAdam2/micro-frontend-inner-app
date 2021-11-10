@@ -69,7 +69,7 @@
     4- Pass store and addMiddleWares as props:<br>
         `const RemoteInnerApp = ({
         	store,
-        	// addMiddleWares
+        	addMiddleWares
         }) => {`
         
     5- Create a boolean state which is used to indicate whither the current store slices have been injected into the host store or not:<br>
@@ -78,7 +78,7 @@
     6- Use `injectReducer` and `addMiddleWares` functions:<br>
         `useEffect(() => {
         		store.injectReducer(reducerSlices);
-        		// addMiddleWares([middleWare1, middleWare2]);
+        		addMiddleWares([middleWare1, middleWare2]);
         	}, [store]);`<br>
         	
     **_Notes:_** 
