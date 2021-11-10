@@ -2,8 +2,6 @@
 
 - Uses ***module federation plugin*** from webpack to create injectable ***module***.
 
-**_Note:_** Hot reloading is not working well with ***module federation plugin***.
-
 ## How to create injectable ***module*** and expose it to parent sites:
 
 - Open **webpack.common.js** file.<br>
