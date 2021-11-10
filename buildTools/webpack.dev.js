@@ -3,8 +3,7 @@ const webpack = require('webpack'),
 	{ merge } = require('webpack-merge'),
 	common = require('./webpack.common.js'),
 	//constants
-	{ port, rootDirectory, devServer } = require('./constants'),
-	fullDevServerUrl = devServer + ':' + port + '/';
+	{ port } = require('./constants');
 
 module.exports = (env, options) => {
 	return merge(common(env, options), {
@@ -16,33 +15,11 @@ module.exports = (env, options) => {
 		devtool: 'inline-source-map',
 		//required for hot reload
 		target: 'web',
-		module: {
-			rules: [
-				{
-					test: /\.(png|jp(e*)g|svg)$/,
-					use: {
-						loader: 'file-loader',
-						options: {
-							name: '[name].[contenthash].[ext]',
-							outputPath: 'assets/images',
-							publicPath: fullDevServerUrl + 'assets/images',
-						},
-					},
-					type: 'javascript/auto',
-				},
-			],
-		},
 		devServer: {
-			// important to enable hot reloading
-			// hot: true,
 			compress: true,
-			// Tell the server where to serve content from
-			contentBase: rootDirectory,
 			// open development server
 			open: true,
-			port: port,
-			//show error messages on an overlay on the browser
-			overlay: true,
+			port,
 			// important for navigating to the app using browser (if you use any route other than /)
 			historyApiFallback: true,
 			// CORS :: https://github.com/webpack/webpack-dev-server/issues/533
