@@ -142,7 +142,7 @@ module.exports = (env, options) => {
 						new MFLiveReloadPlugin({
 							port, // the port your app runs on
 							container: 'inner_app', // the name of your app, must be unique
-							standalone: false, // false uses chrome extension
+							standalone: true, // false uses chrome extension
 						}),
 				  ]
 				: []),

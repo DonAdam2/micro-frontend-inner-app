@@ -2,6 +2,8 @@
 
 - Uses ***module federation plugin*** from webpack to create injectable ***module***.
 
+**_Note:_** You must start the container app first then inner app in order for the hot reloading to work properly.
+
 ## How to create injectable ***module*** and expose it to parent sites:
 
 - Open **webpack.common.js** file.<br>
