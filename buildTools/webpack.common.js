@@ -11,11 +11,14 @@ const path = require('path'),
 	EsLintPlugin = require('eslint-webpack-plugin'),
 	{ ModuleFederationPlugin } = require('webpack').container,
 	{ MFLiveReloadPlugin } = require('@module-federation/fmr'),
+	ExternalTemplateRemotesPlugin = require('external-remotes-plugin'),
 	//constants
 	{
 		port,
 		devServer,
 		jsSubDirectory,
+		remoteDevUrl,
+		remoteProdUrl,
 		metaInfo: { title, description, url, keywords },
 	} = require('./constants'),
 	PATHS = require('./paths'),
@@ -149,12 +152,6 @@ module.exports = (env, options) => {
 			new ModuleFederationPlugin({
 				//name of the current project
 				name: 'inner_app',
-				/*library.type: It defines the library type, var. The available
-	            options are var, module, assign, this, window, self, global,
-		        commonjs, commonjs2, commonjs-module, amd, amd-require, umd,
-		        umd2, jsonp, and system.*/
-				//library.name: it defines the library name
-				library: { type: 'var', name: 'inner_app' },
 				/*It defines the exposed filename, remoteEntry.js, using relative
 				path inside the output.path directory*/
 				filename: 'remoteEntry.js',
@@ -162,9 +159,16 @@ module.exports = (env, options) => {
 				exposes: {
 					'./App': path.join(PATHS.src, 'RemoteApp'),
 				},
+				remotes: {
+					second_inner_app: `second_inner_app@${
+						isDevelopment ? remoteDevUrl : remoteProdUrl
+					}/remoteEntry.js`,
+				},
 				//It defines how modules are shared in the share scope
 				shared: ['react', 'react-dom'],
 			}),
+			//used to make sure that remote modules are loaded before the main bundle
+			new ExternalTemplateRemotesPlugin(),
 			new EsLintPlugin({
 				extensions: ['.js', '.jsx'],
 			}),

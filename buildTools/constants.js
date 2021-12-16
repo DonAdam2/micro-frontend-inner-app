@@ -6,6 +6,8 @@ module.exports = {
 	environmentsDirectory: 'environments',
 	jsSubDirectory: 'js/',
 	cssSubDirectory: 'css/',
+	remoteDevUrl: 'http://localhost:3002',
+	remoteProdUrl: 'http://localhost:8082',
 	metaInfo: {
 		title: 'Inner app',
 		description: 'description',
