@@ -1,13 +1,9 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //selectors
 import { getTestAction } from '../store/app/selectors/AppSelectors';
 //actions
 import { setTestAction } from '../store/app/actions/AppActions';
-//components
-import LoadingIcon from '../components/shared/loadingIcon/LoadingIcon';
-//import remote micro frontend lazily
-const RemoteApp = lazy(() => import('second_inner_app/App'));
 
 const TestComponent = () => {
 	const dispatch = useDispatch(),
@@ -24,15 +20,6 @@ const TestComponent = () => {
 					margin: '4rem auto',
 				}}
 			>
-				<Suspense
-					fallback={
-						<div className="loader-wrapper">
-							<LoadingIcon />
-						</div>
-					}
-				>
-					<RemoteApp />
-				</Suspense>
 				<h3>inner app</h3>
 				<p>
 					Current environment API of the inner app is <strong>{process.env.API_URL}</strong>

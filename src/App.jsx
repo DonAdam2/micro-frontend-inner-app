@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 // required for babel polyfills
@@ -16,6 +16,9 @@ import { slides } from './js/constants/AppConstants';
 //components
 import Carousel from './js/components/shared/carousel/Carousel';
 import TestComponent from './js/containers/TestComponent';
+import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
+//import remote micro frontend lazily
+const RemoteApp = lazy(() => import('second_inner_app/App'));
 
 const store = configureStore();
 
@@ -27,6 +30,15 @@ const App = () => (
 			console.log('Try again clicked');
 		}}
 	>
+		<Suspense
+			fallback={
+				<div className="loader-wrapper">
+					<LoadingIcon />
+				</div>
+			}
+		>
+			<RemoteApp />
+		</Suspense>
 		<Carousel slides={slides} isPageBackground />
 		<TestComponent />
 	</ErrorBoundary>
