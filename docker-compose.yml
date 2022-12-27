@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: development
     ports:
-      - '3000:3000'
+      - '3001:3001'
     volumes:
       - .:/usr/app
       - /usr/app/node_modules/
@@ -16,4 +16,4 @@ services:
       dockerfile: Dockerfile
       target: production
     ports:
-      - '8080:80'
+      - '8081:80'
