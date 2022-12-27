@@ -1,10 +1,17 @@
 const path = require('path'),
-	projectPath = `${path.join(__dirname)}/../`,
-	{ outputDirectory, rootDirectory, environmentsDirectory } = require('./constants');
+  // __dirname is the absolute path to the root directory of our app
+  projectPath = `${path.join(__dirname)}/../`,
+  {
+    outputDirectory,
+    rootDirectory,
+    publicDirectory,
+    environmentsDirectory,
+  } = require('./constants');
 
 module.exports = {
-	src: path.join(projectPath, rootDirectory),
-	outputSrc: path.resolve(projectPath, outputDirectory),
-	environments: path.resolve(projectPath, environmentsDirectory),
-	projectPath,
+  src: path.join(projectPath, rootDirectory),
+  public: path.join(projectPath, publicDirectory),
+  outputSrc: path.resolve(projectPath, outputDirectory),
+  environments: path.resolve(projectPath, environmentsDirectory),
+  packageJson: path.resolve(projectPath, 'package.json'),
 };

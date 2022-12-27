@@ -1,8 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 //import meta image
-import './assets/images/metaImage.jpg';
+import '@/public/assets/images/metaImage.jpg';
 //root component
-import { InnerApp } from './App';
+import App from './App';
+import { Provider } from 'react-redux';
+import store from '@/js/store/store';
 
-ReactDOM.render(<InnerApp />, document.getElementById('root'));
+const container = document.getElementById('root'),
+  root = createRoot(container);
+
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);

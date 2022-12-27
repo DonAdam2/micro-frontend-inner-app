@@ -1,1 +1,0 @@
-export const TEST_ACTION = '[INNER-APP] TEST_ACTION';

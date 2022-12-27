@@ -1,11 +1,8 @@
-import { combineReducers } from 'redux';
-//slices
-import app from './app/reducers/AppReducer';
+// slices
+import innerApp from './app/slices/AppSlice';
+/* PLOP_INJECT_IMPORT */
 
-export const reducerSlices = {
-	innerApp: app,
+export const rootReducer = {
+  innerApp,
+  /* PLOP_INJECT_REDUCER_SLICE */
 };
-
-const rootReducer = combineReducers(reducerSlices);
-
-export default rootReducer;

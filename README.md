@@ -44,7 +44,7 @@
         }),`
  	
 - Create the component you want to expose.
-- Create `bootstrap.js` file and move into it all the code from `index.js` file.
+- Create `bootstrap.js` file and move into it all the code from `index.jsx` file.
 - Import `bootstrap.js` inside `index.jsx` file.<br>
 `import('./bootstrap');`
 
