@@ -166,7 +166,7 @@
     - **store**: host app store
     - **injectMiddleWares**: function used to inject current app redux middlewares into the host app
 
-    5- Create a boolean state which is used to indicate whither the current store slices have been injected into the host store or not:
+    5- Create a boolean state which is used to indicate whether the current store slices have been injected into the host store or not:
         
     ```
     const [isSlicesInjected, setIsSlicesInjected] = useState(false);
