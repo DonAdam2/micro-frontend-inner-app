@@ -4,7 +4,7 @@
 - This app is the remote entry of [Micro frontend container app](https://github.com/DonAdam2/micro-frontend-container-app)
 - And the host of [Micro frontend second inner app](https://github.com/DonAdam2/micro-frontend-second-inner-app)
 
-**_Note:_** You must start the container app first then inner app in order for the hot reloading to work properly.
+**_Note:_** This app uses live reloading for local development.
 
 ## How to create injectable ***module*** and expose it to parent sites:
 
