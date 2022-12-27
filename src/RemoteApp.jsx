@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 //root reducer
-import { rootReducer } from './js/store/rootReducer';
+import { reducerSlices } from '@/js/store/reducerSlices';
 //custom middlewares
 import loggingMiddleware from '@/js/store/middlewares/loggingMiddleWare';
 //app
@@ -14,7 +14,7 @@ const RemoteInnerApp = ({ injectSlices, store, injectMiddleWares }) => {
   const [isSlicesInjected, setIsSlicesInjected] = useState(false);
 
   useEffect(() => {
-    injectSlices(rootReducer);
+    injectSlices(reducerSlices);
     injectMiddleWares([loggingMiddleware]);
   }, [injectSlices, injectMiddleWares]);
 

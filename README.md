@@ -69,7 +69,7 @@
     1- Import current store slices:
     
     ```
-      import { reducerSlices } from './js/store/rootReducer';
+      import { reducerSlices } from './js/store/reducerSlices';
     ```
          
     2- Import app:
@@ -105,7 +105,7 @@
         
     ```
     useEffect(() => {
-        injectSlices(rootReducer);
+        injectSlices(reducerSlices);
         injectMiddleWares([loggingMiddleware]);
     }, [injectReducer, addMiddleWares]);
     ```

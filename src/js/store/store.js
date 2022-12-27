@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 //root reducer
-import { rootReducer } from './rootReducer';
+import { reducerSlices } from './reducerSlices';
 //custom middlewares
 import loggingMiddleware from '@/js/store/middlewares/loggingMiddleWare';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 export default configureStore({
-  reducer: rootReducer,
+  reducer: reducerSlices,
   devTools: isDevelopment,
   middleware: (getDefaultMiddleware) => {
     if (isDevelopment) {
