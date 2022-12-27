@@ -159,6 +159,7 @@ module.exports = (env, options) => {
         exposes: {
           './App': path.join(PATHS.src, 'RemoteApp'),
         },
+        //list of apps that will be hosted in the current app
         remotes: {
           second_inner_app: `second_inner_app@${
             isDevelopment ? remoteDevUrl : remoteProdUrl

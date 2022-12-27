@@ -10,25 +10,25 @@ import App from './App';
 import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
-const RemoteInnerApp = ({ injectReducer, store, addMiddleWares }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+const RemoteInnerApp = ({ injectSlices, store, injectMiddleWares }) => {
+  const [isSlicesInjected, setIsSlicesInjected] = useState(false);
 
   useEffect(() => {
-    injectReducer(rootReducer);
-    addMiddleWares([loggingMiddleware]);
-  }, [injectReducer, addMiddleWares]);
+    injectSlices(rootReducer);
+    injectMiddleWares([loggingMiddleware]);
+  }, [injectSlices, injectMiddleWares]);
 
   useEffect(() => {
     const state = store.getState ? store.getState() : {};
     //remove loader once our first redux slice has been injected into the parent store
     if (state.innerApp) {
-      setIsLoaded(true);
+      setIsSlicesInjected(true);
     }
   }, [store]);
 
   return (
     <Provider store={store || {}}>
-      {isLoaded ? (
+      {isSlicesInjected ? (
         <App />
       ) : (
         <div className="d-flex justify-content-center">
