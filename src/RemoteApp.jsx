@@ -10,7 +10,7 @@ import App from './App';
 import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
-const RemoteInnerApp = ({ injectSlices, store, injectMiddleWares }) => {
+const RemoteApp = ({ injectSlices, store, injectMiddleWares }) => {
   const [isSlicesInjected, setIsSlicesInjected] = useState(false);
 
   useEffect(() => {
@@ -39,4 +39,4 @@ const RemoteInnerApp = ({ injectSlices, store, injectMiddleWares }) => {
   );
 };
 
-export default RemoteInnerApp;
+export default RemoteApp;

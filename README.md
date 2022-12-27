@@ -158,7 +158,7 @@
     4- Pass injectSlices, store and injectMiddleWares as props:
         
     ```
-    const RemoteInnerApp = ({ injectSlices, store, injectMiddleWares }) => {
+    const RemoteApp = ({ injectSlices, store, injectMiddleWares }) => {
     ```
 
   **_Notes:_** 
