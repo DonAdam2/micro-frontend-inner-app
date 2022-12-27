@@ -39,7 +39,7 @@
 - Update the **_production_** section of the **_Dockerfile_** to meet your needs
 - Run the following command to build your image => `docker-compose up web-prod`
 
-## How to create injectable ***module*** and expose it to host sites
+## How to create injectable _module_ and expose it to host sites
 
 - Open **webpack.common.js** file.<br>
     1- Import ***ModuleFederationPlugin***:
@@ -95,7 +95,7 @@
     import('./bootstrap');
   ```
 
-## How to import a ***remote module*** and use it
+## How to import a _remote module_ and use it
 - Open **webpack.common.js** file.<br>
   1- Import ***ModuleFederationPlugin***:
   
