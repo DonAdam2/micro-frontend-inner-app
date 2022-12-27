@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 //error boundary
 import { ErrorBoundary } from 'react-error-boundary';
 //error boundary fallback
-import ErrorBoundaryFallback from './js/generic/ErrorBoundaryFallback';
+import RemoteEntryErrorBoundaryFallback from '@/js/generic/RemoteEntryErrorBoundaryFallback';
 //styles
 import './scss/global.scss';
 //constants
@@ -15,25 +15,27 @@ import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 const RemoteApp = lazy(() => import('second_inner_app/App'));
 
 const App = () => (
-  <ErrorBoundary
-    FallbackComponent={ErrorBoundaryFallback}
-    onReset={() => {
-      //Reset the state of your app so the error doesn't happen again
-      console.log('Try again clicked');
-    }}
-  >
-    <Suspense
-      fallback={
-        <div className="loader-wrapper">
-          <LoadingIcon />
-        </div>
-      }
+  <>
+    <ErrorBoundary
+      FallbackComponent={RemoteEntryErrorBoundaryFallback}
+      onReset={() => {
+        //Reset the state of your app so the error doesn't happen again
+        console.log('Try again clicked');
+      }}
     >
-      <RemoteApp />
-    </Suspense>
+      <Suspense
+        fallback={
+          <div className="loader-wrapper">
+            <LoadingIcon />
+          </div>
+        }
+      >
+        <RemoteApp />
+      </Suspense>
+    </ErrorBoundary>
     <Carousel slides={slides} isPageBackground />
     <TestComponent />
-  </ErrorBoundary>
+  </>
 );
 
 export default App;
