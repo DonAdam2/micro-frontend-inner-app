@@ -91,7 +91,7 @@
     ```
 
   **_Notes:_** 
-    - **injectSlices**: function used to inject current app redux slices into the host app
+    - **injectSlices**: function used to inject current app redux slices into the host app store
     - **store**: host app store
     - **injectMiddleWares**: function used to inject current app redux middlewares into the host app
 
