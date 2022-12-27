@@ -87,7 +87,9 @@
   ```
   new ModuleFederationPlugin({
     remotes: {
-      inner_app: 'inner_app@${isDevelopment ? remoteDevUrl : remoteProdUrl}/remoteEntry.js',
+      second_inner_app: `second_inner_app@${
+          isDevelopment ? remoteDevUrl : remoteProdUrl
+        }/remoteEntry.js`,
     },
   ```
 
