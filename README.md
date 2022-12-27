@@ -106,6 +106,13 @@
   }),
   ```
 
+  6- Install **external-remotes-plugin** and add it below ***ModuleFederationPlugin*** in the plugins array:
+
+  ```
+  //used to make sure that remote modules are loaded before the main bundle
+  new ExternalTemplateRemotesPlugin(),
+  ```
+
 - Import the ***remote module*** lazily in the required place, example:
 
   ```
