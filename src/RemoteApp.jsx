@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Provider } from 'react-redux';
 //root reducer
 import { reducerSlices } from '@/js/store/reducerSlices';
@@ -11,12 +11,14 @@ import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
 const RemoteApp = ({ injectSlices, store, injectMiddleWares }) => {
-  const [isSlicesInjected, setIsSlicesInjected] = useState(false);
+  const [isSlicesInjected, setIsSlicesInjected] = useState(false),
+    _injectSlices = useRef(injectSlices),
+    _injectMiddleWares = useRef(injectMiddleWares);
 
   useEffect(() => {
-    injectSlices(reducerSlices);
-    injectMiddleWares([loggingMiddleware]);
-  }, [injectSlices, injectMiddleWares]);
+    _injectSlices.current(reducerSlices);
+    _injectMiddleWares.current([loggingMiddleware]);
+  }, []);
 
   useEffect(() => {
     const state = store.getState ? store.getState() : {};

@@ -171,17 +171,24 @@
     ```
     const [isSlicesInjected, setIsSlicesInjected] = useState(false);
     ```
-        
-    6- Use `injectSlices` and `injectMiddleWares` functions:
+
+    6- Create refs to store `injectSlices` and `injectMiddleWares` functions:
+
+    ```
+    const _injectSlices = useRef(injectSlices),
+      _injectMiddleWares = useRef(injectMiddleWares);
+    ```
+
+    7- Use `injectSlices` and `injectMiddleWares` functions:
         
     ```
     useEffect(() => {
-        injectSlices(reducerSlices);
-        injectMiddleWares([loggingMiddleware]);
-    }, [injectReducer, addMiddleWares]);
+      _injectSlices.current(reducerSlices);
+      _injectMiddleWares.current([loggingMiddleware]);
+    }, []);
     ```
     
-    7- Set isLoaded flag to true when current redux slices have been injected successfully into the host store:
+    8- Set isLoaded flag to true when current redux slices have been injected successfully into the host store:
         
     ```
     useEffect(() => {
@@ -196,7 +203,7 @@
     **_Notes:_**
     - Make sure to **prefix current redux slices** with a unique name to avoid conflicts between slices names in the host store
   
-    8- Show the app:
+    9- Show the app:
         
     ```
     <Provider store={store || {}}>
