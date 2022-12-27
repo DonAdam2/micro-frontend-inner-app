@@ -134,7 +134,7 @@
     </ErrorBoundary>
   ```
 
-## How to inject the current redux store slices into the parent site redux store:
+## How to inject current redux store slices into the parent site redux store:
     
 - Create RemoteApp component:<br>
     1- Import current store slices:
