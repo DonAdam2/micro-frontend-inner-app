@@ -3,7 +3,6 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   EsLintPlugin = require('eslint-webpack-plugin'),
-  postcssPresetEnv = require('postcss-preset-env'),
   { ModuleFederationPlugin } = require('webpack').container,
   ExternalTemplateRemotesPlugin = require('external-remotes-plugin'),
   //constants
@@ -99,7 +98,8 @@ module.exports = (env, options) => {
                         localIdentName: isDevelopment ? '[name]_[local]' : '[contenthash:base64]',
                         localIdentContext: PATHS.src,
                         localIdentHashSalt: 'react-boilerplate',
-                        exportLocalsConvention: 'camelCaseOnly',
+                        exportLocalsConvention: 'camel-case-only',
+                        namedExport: false,
                       },
                     }
                   : {}),
@@ -112,11 +112,14 @@ module.exports = (env, options) => {
                   ident: 'postcss',
                   plugins: [
                     'postcss-flexbugs-fixes',
-                    postcssPresetEnv({
-                      stage: 0,
-                      //uncomment the following if you want to prefix grid properties
-                      // autoprefixer: { grid: true },
-                    }),
+                    [
+                      'postcss-preset-env',
+                      {
+                        stage: 0,
+                        //uncomment the following if you want to prefix grid properties
+                        // autoprefixer: { grid: true },
+                      },
+                    ],
                     // Adds PostCSS Normalize as the reset css with default options,
                     // so that it honors browserslist config in package.json
                     // which in turn let's users customize the target behavior as per their needs.
