@@ -1,3 +1,5 @@
+@use '../../../generic/variables' as vars;
+
 .slideContent {
   width: 250px;
   height: 300px;
@@ -94,15 +96,15 @@
   margin: 0 auto;
 
   // > 768
-  @media (min-width: $tablet) {
+  @media (min-width: vars.$tablet) {
     width: 750px;
   }
   // > 992
-  @media (min-width: $laptop) {
+  @media (min-width: vars.$laptop) {
     width: 970px;
   }
   // > 1200
-  @media (min-width: $desktop) {
+  @media (min-width: vars.$desktop) {
     width: 1170px;
   }
 
