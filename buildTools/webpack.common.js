@@ -183,6 +183,19 @@ module.exports = (env, options) => {
       new ExternalTemplateRemotesPlugin(),
       new EsLintPlugin({
         extensions: ['.js', '.jsx', '.json'],
+        context: PATHS.src,
+        cache: true,
+        cacheLocation: path.resolve('node_modules/.cache/.eslintcache'),
+        // Development-specific options
+        failOnError: !isDevelopment,
+        failOnWarning: false,
+        emitError: true,
+        emitWarning: true,
+        // Only display errors/warnings on the overlay, don't block compilation in dev
+        ...(isDevelopment && {
+          quiet: false,
+          fix: false,
+        }),
       }),
       new HtmlWebpackPlugin({
         title,
