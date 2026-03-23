@@ -61,7 +61,7 @@ module.exports = (env, options) => {
           },
         },
         {
-          test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
+          test: /\.(jpe?g|svg|png|gif|ico|ttf|woff2?)(\?v=\d+\.\d+\.\d+)?$/i,
           type: 'asset/resource',
         },
         {
@@ -114,16 +114,9 @@ module.exports = (env, options) => {
                   return {
                     ident: 'postcss',
                     plugins: [
-                      'postcss-flexbugs-fixes',
                       postcssPresetEnv({
                         stage: 0,
-                        //uncomment the following if you want to prefix grid properties
-                        // autoprefixer: { grid: true },
                       }),
-                      // Adds PostCSS Normalize as the reset css with default options,
-                      // so that it honors browserslist config in package.json
-                      // which in turn let's users customize the target behavior as per their needs.
-                      'postcss-normalize',
                     ],
                   };
                 },
