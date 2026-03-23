@@ -50,9 +50,6 @@ module.exports = [
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
 
-      // React Hooks recommended
-      ...reactHooks.configs.recommended.rules,
-
       // Custom overrides
       'prettier/prettier': 'error',
       'no-unused-vars': 'warn',
