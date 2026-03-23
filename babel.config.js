@@ -22,12 +22,10 @@ module.exports = (api) => {
           targets: {
             browsers: ['last 2 versions', 'not dead'],
           },
-          useBuiltIns: 'entry',
-          corejs: '3',
         },
       ],
       ['@babel/preset-react', { runtime: hasJsxRuntime ? 'automatic' : 'classic' }],
     ],
-    plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-syntax-dynamic-import'],
+    plugins: ['@babel/plugin-transform-runtime'],
   };
 };
