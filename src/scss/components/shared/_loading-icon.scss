@@ -3,6 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  //takes the size of the loader only instead of the full height of its parent (e.g. loading a remote component)
+  &.inline-loader {
+    height: auto;
+    padding: 20px 0;
+  }
 }
 
 .lds-ring {
