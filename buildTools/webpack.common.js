@@ -3,14 +3,16 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   EsLintPlugin = require('eslint-webpack-plugin'),
-  { ModuleFederationPlugin } = require('webpack').container,
+  {
+    DefinePlugin,
+    container: { ModuleFederationPlugin },
+  } = require('webpack'),
   //constants
   {
     devServer,
     jsSubDirectory,
     isCssModules,
-    remoteDevUrl,
-    remoteProdUrl,
+    remotes,
     metaInfo: { title, description, url, keywords },
   } = require('./constants'),
   PATHS = require('./paths'),
@@ -152,12 +154,8 @@ module.exports = (env, options) => {
         exposes: {
           './App': path.join(PATHS.src, 'RemoteApp'),
         },
-        //list of apps that will be hosted in the current app
-        remotes: {
-          second_inner_app: `second_inner_app@${
-            isDevelopment ? remoteDevUrl : remoteProdUrl
-          }/remoteEntry.js`,
-        },
+        /*remote apps are not listed in "remotes" because webpack caches a failed remote until the page is refreshed,
+        instead they are loaded at runtime (src/js/constants/LoadRemote.js) so they can be retried*/
         //It defines how modules are shared in the share scope
         shared: {
           //eager: Allows Webpack to include the shared packages directly instead of fetching the library via an asynchronous request
@@ -171,6 +169,17 @@ module.exports = (env, options) => {
             requiredVersion: devDependencies['react-dom'],
           },
         },
+      }),
+      //remote apps urls (defined in buildTools/constants.js) used by src/js/constants/LoadRemote.js
+      new DefinePlugin({
+        MF_REMOTES: JSON.stringify(
+          Object.fromEntries(
+            Object.entries(remotes).map(([name, { devUrl, prodUrl }]) => [
+              name,
+              `${isDevelopment ? devUrl : prodUrl}/remoteEntry.js`,
+            ])
+          )
+        ),
       }),
       new EsLintPlugin({
         extensions: ['.js', '.jsx', '.json'],
