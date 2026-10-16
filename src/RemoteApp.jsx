@@ -11,7 +11,10 @@ import LoadingIcon from './js/components/shared/loadingIcon/LoadingIcon';
 
 //wrapper for the parent app
 const RemoteApp = ({ injectSlices, store, injectMiddleWares }) => {
-  const [isSlicesInjected, setIsSlicesInjected] = useState(false),
+  //slices are already injected if the app was mounted before (e.g. when switching routes in the host app)
+  const [isSlicesInjected, setIsSlicesInjected] = useState(() =>
+      Boolean(store?.getState?.().innerApp)
+    ),
     _injectSlices = useRef(injectSlices),
     _injectMiddleWares = useRef(injectMiddleWares);
 

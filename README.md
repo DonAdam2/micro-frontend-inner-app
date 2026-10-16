@@ -128,6 +128,8 @@ import RemoteComponent from '@/js/components/shared/remoteComponent/RemoteCompon
 **_Notes:_**
 - `remote` format is `remote_app_name/ExposedModule`.
 - Any other prop passed to `RemoteComponent` is passed to the remote module, e.g. `<RemoteComponent remote="second_inner_app/App" store={store} />`.
+- Each remote module is loaded only once, it is not loaded again when `RemoteComponent` is mounted again (e.g. when switching routes), so its state is kept.
+- If a remote module fails to load, the fallback UI with a **Try again** button is shown, it is loaded again when clicking **Try again** or when `RemoteComponent` is mounted again.
 
 ## How to add a new remote app
 
@@ -204,10 +206,13 @@ remotes: {
     - **store**: host app store
     - **injectMiddleWares**: function used to inject current app redux middlewares into the host app
 
-    5- Create a boolean state which is used to indicate whether the current store slices have been injected into the host store or not:
+    5- Create a boolean state which is used to indicate whether the current store slices have been injected into the host store or not
+    (it starts as `true` if the slices were injected before, e.g. when switching routes in the host app, to avoid showing the loader again):
         
     ```
-    const [isSlicesInjected, setIsSlicesInjected] = useState(false);
+    const [isSlicesInjected, setIsSlicesInjected] = useState(() =>
+      Boolean(store?.getState?.().innerApp)
+    );
     ```
 
     6- Create refs to store `injectSlices` and `injectMiddleWares` functions:
