@@ -1,4 +1,5 @@
 const path = require('path'),
+  { fixupPluginRules } = require('@eslint/compat'),
   js = require('@eslint/js'),
   react = require('eslint-plugin-react'),
   reactHooks = require('eslint-plugin-react-hooks'),
@@ -41,7 +42,8 @@ module.exports = [
       },
     },
     plugins: {
-      react: react,
+      // eslint-plugin-react doesn't support ESLint 10 yet (uses removed context methods)
+      react: fixupPluginRules(react),
       'react-hooks': reactHooks,
       prettier: prettier,
     },

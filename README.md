@@ -17,7 +17,7 @@
 
 ## Prerequisites
 
-- nodeJS > 14.X.X or Docker
+- nodeJS ^22.18.0 or >=24.11.0, or Docker
 
 ## Installing / Getting Started
 

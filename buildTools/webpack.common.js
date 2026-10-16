@@ -4,7 +4,6 @@ const path = require('path'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin'),
   EsLintPlugin = require('eslint-webpack-plugin'),
   { ModuleFederationPlugin } = require('webpack').container,
-  ExternalTemplateRemotesPlugin = require('external-remotes-plugin'),
   //constants
   {
     devServer,
@@ -173,8 +172,6 @@ module.exports = (env, options) => {
           },
         },
       }),
-      //used to make sure that remote modules are loaded before the main bundle
-      new ExternalTemplateRemotesPlugin(),
       new EsLintPlugin({
         extensions: ['.js', '.jsx', '.json'],
         context: PATHS.src,
