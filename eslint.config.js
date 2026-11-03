@@ -42,6 +42,7 @@ module.exports = [
         //injected by webpack (module federation runtime and DefinePlugin)
         __webpack_init_sharing__: 'readonly',
         __webpack_share_scopes__: 'readonly',
+        __webpack_public_path__: 'readonly',
         MF_REMOTES: 'readonly',
       },
     },

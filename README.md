@@ -39,6 +39,17 @@
 ## Docker for production (_basic setup_) (modify it to your needs):
 - Update the **_production_** section of the **_Dockerfile_** to meet your needs
 - Run the following command to build your image => `docker-compose up web-prod`
+- The production image serves the app with **nginx** (**/docker/nginx.conf**):
+  - unknown routes fall back to `index.html` (react router handles them).
+  - `Access-Control-Allow-Origin: *` so the host apps can load the files of the current app (fonts, `remotes.json`, ...).
+  - hashed js/css files are cached forever, `index.html`, `remoteEntry.js` and `remotes.json` are revalidated on every request
+    (otherwise the host apps would keep loading an old version of the current app after a deploy).
+- The urls of the remote apps can be changed **without rebuilding the image** using `REMOTE_<APP_NAME>` environment variables,
+  they are written to `remotes.json` when the container starts (**/docker/40-remotes-json.sh**), e.g.:
+
+  ```
+  docker run -p 8081:80 -e REMOTE_SECOND_INNER_APP=https://second-inner-app.example.com <image>
+  ```
 
 ## How to create injectable _module_ and expose it to host sites
 
@@ -85,18 +96,23 @@
     ```
     new ModuleFederationPlugin({
         shared: {
-          react: { eager: true, singleton: true, requiredVersion: devDependencies['react'] },
+          react: { singleton: true, requiredVersion: majorVersionRange('react') },
           'react-dom': {
-            eager: true,
             singleton: true,
             strictVersion: true,
-            requiredVersion: devDependencies['react-dom'],
+            requiredVersion: majorVersionRange('react-dom'),
           },
+          'react-redux': { singleton: true, requiredVersion: majorVersionRange('react-redux') },
+          '@reduxjs/toolkit': { singleton: true, requiredVersion: majorVersionRange('@reduxjs/toolkit') },
         },
     }),
     ```
 
-    **_Note:_** The `shared` configuration must match in the host app and all the remote apps (`react` and `react-dom` must be singletons).
+    **_Notes:_**
+    - The `shared` configuration must match in the host app and all the remote apps (`react` and `react-dom` must be singletons).
+    - `majorVersionRange('react')` returns `^19.0.0`, so an app can be deployed with a newer minor/patch version without breaking the other apps
+      (an exact version would make `strictVersion` reject any mismatch).
+    - Remote apps are **not** `eager` (only the host app is), so they use the host copy of the shared packages instead of downloading their own.
  	
 - Create the component you want to expose.
 - Create `bootstrap.js` file and move into it all the code from `index.jsx` file.
@@ -115,6 +131,9 @@ Instead, remote apps are loaded at runtime, which allows retrying without refres
 - **/buildTools/constants.js** => `remotes` object contains the name and the urls of every remote app.
 - **/buildTools/webpack.common.js** => injects the remote apps urls into the code as `MF_REMOTES` (using ***DefinePlugin***).
 - **/src/js/constants/LoadRemote.js** => loads the `remoteEntry.js` of the remote app, shares the dependencies (react, react-dom, ...) with it and returns the requested module.
+- **remotes.json** (emitted next to `index.html` by **/buildTools/webpack.common.js**) => the urls of the remote apps loaded at runtime,
+  so they can be changed after the build without rebuilding the current app, e.g. `{ "inner_app": "https://inner-app.example.com" }`
+  (the docker image overwrites it from `REMOTE_<APP_NAME>` environment variables, `MF_REMOTES` is used if it can't be loaded).
 - **/src/js/components/shared/remoteComponent/RemoteComponent.jsx** => renders the remote module lazily inside an error boundary (with a loader and a **Try again** button).
 
 Usage:
@@ -128,6 +147,7 @@ import RemoteComponent from '@/js/components/shared/remoteComponent/RemoteCompon
 **_Notes:_**
 - `remote` format is `remote_app_name/ExposedModule`.
 - Any other prop passed to `RemoteComponent` is passed to the remote module, e.g. `<RemoteComponent remote="second_inner_app/App" store={store} />`.
+- Each remote app is loaded only once, even when it is requested by several components at the same time.
 - Each remote module is loaded only once, it is not loaded again when `RemoteComponent` is mounted again (e.g. when switching routes), so its state is kept.
 - If a remote module fails to load, the fallback UI with a **Try again** button is shown, it is loaded again when clicking **Try again** or when `RemoteComponent` is mounted again.
 
@@ -210,9 +230,7 @@ remotes: {
     (it starts as `true` if the slices were injected before, e.g. when switching routes in the host app, to avoid showing the loader again):
         
     ```
-    const [isSlicesInjected, setIsSlicesInjected] = useState(() =>
-      Boolean(store?.getState?.().innerApp)
-    );
+    const [isSlicesInjected, setIsSlicesInjected] = useState(() => Boolean(store.getState().innerApp));
     ```
 
     6- Create refs to store `injectSlices` and `injectMiddleWares` functions:
@@ -235,9 +253,8 @@ remotes: {
         
     ```
     useEffect(() => {
-        const state = store.getState ? store.getState() : {};
         //remove loader once our first redux slice has been injected into the parent store
-        if (state.innerApp) {
+        if (store.getState().innerApp) {
           setIsSlicesInjected(true);
         }
     }, [store]);
@@ -245,11 +262,12 @@ remotes: {
 
     **_Notes:_**
     - Make sure to **prefix current redux slices** with a unique name to avoid conflicts between slices names in the host store
+      (the host app ignores a slice whose name is already used by another slice)
   
     9- Show the app:
         
     ```
-    <Provider store={store || {}}>
+    <Provider store={store}>
         {isSlicesInjected ? (
             <App />
         ) : (
@@ -258,6 +276,20 @@ remotes: {
             </div>
         )}
     </Provider>
+    ```
+
+    10- Hosts without redux (or that don't pass `store` and `injectSlices`) get the store of the current app
+    (in **/src/RemoteApp.jsx** the steps above are in the `HostStoreApp` component):
+
+    ```
+    const RemoteApp = ({ store, injectSlices, ...props }) =>
+      store?.getState && injectSlices ? (
+        <HostStoreApp store={store} injectSlices={injectSlices} {...props} />
+      ) : (
+        <Provider store={localStore}>
+          <App />
+        </Provider>
+      );
     ```
     
 

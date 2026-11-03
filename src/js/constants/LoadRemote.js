@@ -3,14 +3,45 @@
   loading the remote manually allows retrying after a failure.
   Same signature as loadRemote of @module-federation/enhanced/runtime, so it can be swapped later.*/
 
-const loadRemoteEntry = (url, scope) =>
-  new Promise((resolve, reject) => {
-    //remote entry is already loaded
-    if (window[scope]) {
-      resolve();
-      return;
-    }
+/*remote apps urls are loaded at runtime from remotes.json (next to index.html), so they can be changed without rebuilding
+  the current app, e.g. { "inner_app": "https://inner-app.example.com" }
+  it's emitted by webpack from buildTools/constants.js and the docker image overwrites it from the REMOTE_<APP_NAME>
+  environment variables (docker/40-remotes-json.sh)*/
+let remotesPromise;
 
+const getRemotes = () => {
+  if (!remotesPromise) {
+    remotesPromise = fetch(`${__webpack_public_path__}remotes.json`, { cache: 'no-cache' })
+      .then((response) => (response.ok ? response.json() : {}))
+      //the urls of buildTools/constants.js (MF_REMOTES) are used if remotes.json can't be loaded
+      .catch(() => ({}))
+      .then((runtimeRemotes) => ({
+        //MF_REMOTES is injected by webpack from buildTools/constants.js
+        ...MF_REMOTES,
+        ...Object.fromEntries(
+          Object.entries(runtimeRemotes).map(([name, origin]) => [
+            name,
+            `${origin.replace(/\/$/, '')}/remoteEntry.js`,
+          ])
+        ),
+      }));
+  }
+  return remotesPromise;
+};
+
+//pending and loaded remote entries, so a remote requested by several components at once is loaded only once
+const remoteEntries = new Map();
+
+const loadRemoteEntry = (url, scope) => {
+  //remote entry is already loaded
+  if (window[scope]) {
+    return Promise.resolve();
+  }
+  if (remoteEntries.has(scope)) {
+    return remoteEntries.get(scope);
+  }
+
+  const promise = new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = url;
     script.async = true;
@@ -28,16 +59,25 @@ const loadRemoteEntry = (url, scope) =>
       reject(new Error(`Failed to load remote entry of "${scope}" from ${url}`));
     };
     document.head.appendChild(script);
+  }).catch((error) => {
+    //forget the failed attempt so it can be retried
+    remoteEntries.delete(scope);
+    throw error;
   });
+
+  remoteEntries.set(scope, promise);
+  return promise;
+};
 
 const loadRemote = async (request) => {
   //"second_inner_app/App" => scope: "second_inner_app", module: "./App"
   const [scope, ...modulePath] = request.split('/'),
-    //MF_REMOTES is injected by webpack from buildTools/constants.js
-    url = MF_REMOTES[scope];
+    url = (await getRemotes())[scope];
 
   if (!url) {
-    throw new Error(`Remote app "${scope}" is not defined in buildTools/constants.js`);
+    throw new Error(
+      `Remote app "${scope}" is not defined in buildTools/constants.js or remotes.json`
+    );
   }
 
   await loadRemoteEntry(url, scope);
