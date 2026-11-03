@@ -261,8 +261,9 @@ remotes: {
     ```
 
     **_Notes:_**
-    - Make sure to **prefix current redux slices** with a unique name to avoid conflicts between slices names in the host store
-      (the host app ignores a slice whose name is already used by another slice)
+    - Every slice of the current app is **prefixed with `inner`** (store key and `createSlice` name, e.g. `innerApp`),
+      the host app uses `container` and the second inner app `secondInner`, so slices and action types never collide in the host store
+      (the host app ignores a slice whose name is already used, as a safety net)
   
     9- Show the app:
         
