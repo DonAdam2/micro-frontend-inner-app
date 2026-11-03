@@ -1,6 +1,10 @@
 @use '../../../generic/variables' as vars;
 
 .slideContent {
+  // centred defaults, so the tilt is valid before the first move
+  --px: 0.5;
+  --py: 0.5;
+  -webkit-tap-highlight-color: transparent;
   width: 250px;
   height: 300px;
   background-size: cover;
@@ -12,7 +16,7 @@
   align-content: center;
   transform-style: preserve-3d;
   transform: perspective(1000px) translateX(calc(100% * var(--offset)))
-  rotateY(calc(-45deg * var(--dir)));
+    rotateY(calc(-45deg * var(--dir)));
   border-radius: 15px;
 }
 
@@ -75,13 +79,19 @@
   .slideContent {
     --x: calc(var(--px) - 0.5);
     --y: calc(var(--py) - 0.5);
+    // a finger dragged on the centre card tilts it instead of scrolling the page
+    touch-action: none;
     opacity: 1;
-    transform: perspective(1000px);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateX(calc(100% * var(--offset)));
+    transition: transform 0.5s ease-in-out;
 
-    &:hover {
-      transition: none;
+    // set by the script while a pointer or finger is on the card (`:hover` never
+    // applies during a touch drag); a quick follow, easing back on the 0.5s rule above
+    &[data-tilting] {
+      transition: transform 150ms ease-out;
       transform: perspective(1000px) rotateY(calc(var(--x) * 45deg))
-      rotateX(calc(var(--y) * -45deg));
+        rotateX(calc(var(--y) * -45deg));
     }
   }
 }

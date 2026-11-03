@@ -1,11 +1,12 @@
 .slides {
   display: grid;
+
   > .slide {
     grid-area: 1 / -1;
   }
 
   > .prevSlideBtn,
-  .nextSlideBtn {
+  > .nextSlideBtn {
     appearance: none;
     background: transparent;
     border: none;
@@ -19,13 +20,27 @@
     transition: opacity 0.3s;
     opacity: 0.7;
     z-index: 5;
+    cursor: pointer;
+    // no translucent flash over the arrow when it is tapped on a phone
+    -webkit-tap-highlight-color: transparent;
 
-    &:hover {
-      opacity: 1;
+    // only on devices that really hover; on a phone `:hover` sticks after a tap
+    @media (hover: hover) {
+      &:hover {
+        opacity: 1;
+      }
     }
 
+    // ring for keyboard users only; mouse clicks stay outline-free
     &:focus {
       outline: none;
+    }
+
+    &:focus-visible {
+      opacity: 1;
+      outline: 2px solid white;
+      outline-offset: -0.5rem;
+      border-radius: 50%;
     }
   }
 

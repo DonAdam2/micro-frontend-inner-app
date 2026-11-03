@@ -2,14 +2,14 @@
 import useTilt from '../../../customHooks/UseTilt';
 
 const Slide = ({ image, title, subtitle, description, offset, isPageBackground }) => {
-  const active = offset === 0 ? true : null,
-    ref = useTilt(active);
+  const active = offset === 0,
+    ref = useTilt();
 
   return (
     <div
-      ref={ref}
       className="slide"
-      data-active={active}
+      data-active={active || undefined}
+      aria-hidden={active ? undefined : true}
       style={{
         '--offset': offset,
         '--dir': offset === 0 ? 0 : offset > 0 ? 1 : -1,
@@ -24,6 +24,7 @@ const Slide = ({ image, title, subtitle, description, offset, isPageBackground }
         />
       )}
       <div
+        ref={ref}
         className="slideContent"
         style={{
           backgroundImage: `url('${image}')`,
