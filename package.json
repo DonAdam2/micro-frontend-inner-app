@@ -1,5 +1,5 @@
 {
-  "name": "webpack-react-boilerplate",
+  "name": "micro-frontend-inner-app",
   "version": "1.0.0",
   "engines": {
     "node": ">=22.18.0"
@@ -17,7 +17,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "webpack --config buildTools/webpack.prod.js --progress --color",
-    "build:serve": "serve dist --cors -p 8081",
+    "build:serve": "serve dist -s --cors -p 8081",
     "analyze-bundle": "yarn build --json=stats.json && webpack-bundle-analyzer stats.json dist"
   },
   "author": "Adam Morsi",

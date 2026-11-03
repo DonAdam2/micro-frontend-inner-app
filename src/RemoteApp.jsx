@@ -22,7 +22,10 @@ const HostStoreApp = ({ injectSlices, store, injectMiddleWares }) => {
 
   useEffect(() => {
     _injectSlices.current(reducerSlices);
-    _injectMiddleWares.current?.([loggingMiddleware]);
+    //the logging middleware is for development only (like in the store of the current app)
+    if (process.env.NODE_ENV === 'development') {
+      _injectMiddleWares.current?.([loggingMiddleware]);
+    }
   }, []);
 
   useEffect(() => {

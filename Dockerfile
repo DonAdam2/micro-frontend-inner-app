@@ -4,7 +4,8 @@ WORKDIR /usr/app
 
 COPY ["package.json", "yarn.lock", "/usr/app/"]
 
-RUN yarn install --silent
+# --frozen-lockfile installs exactly the versions of yarn.lock (fails if it is out of date)
+RUN yarn install --frozen-lockfile --silent
 
 COPY . ./
 

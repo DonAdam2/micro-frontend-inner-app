@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 //components
 import Slide from './Slide';
 
@@ -6,7 +6,8 @@ import Slide from './Slide';
 const SLIDE_TRANSITION_MS = 500;
 
 const Carousel = ({ slides, isPageBackground }) => {
-  const [slideIndex, setSlideIndex] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0),
+    sectionRef = useRef(null);
 
   // A mouse click releases the button's focus; otherwise the next keyboard arrow press
   // counts as keyboard use and the browser draws the focus ring around it.
@@ -28,11 +29,21 @@ const Carousel = ({ slides, isPageBackground }) => {
   };
 
   // ← / → step through the slides, Home / End jump to the first / last one.
+  // The keys are handled only while the carousel is on screen, so they don't take over the arrows of the
+  // rest of the page (e.g. the host app) once the user scrolls away from it.
   useEffect(() => {
-    let lastStepAt = 0;
+    let lastStepAt = 0,
+      isVisible = false;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     const handleKeyDown = (e) => {
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      if (!isVisible || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         return;
       }
       // leave the arrows alone while the user is typing somewhere
@@ -67,11 +78,14 @@ const Carousel = ({ slides, isPageBackground }) => {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [slides.length]);
 
   return (
-    <section className="slidesWrapper" aria-roledescription="carousel">
+    <section ref={sectionRef} className="slidesWrapper" aria-roledescription="carousel">
       <div className="slides">
         <button
           type="button"

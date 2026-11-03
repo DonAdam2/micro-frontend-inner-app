@@ -39,6 +39,9 @@
 ## Docker for production (_basic setup_) (modify it to your needs):
 - Update the **_production_** section of the **_Dockerfile_** to meet your needs
 - Run the following command to build your image => `docker-compose up web-prod`
+- The app must be served from the root of its origin (e.g. `https://app.example.com/`), the files of `index.html` use `publicPath: '/'`
+  (**/buildTools/webpack.common.js**), change it to serve the app under a sub-path (e.g. `/app/`).
+- `yarn install --frozen-lockfile` installs exactly the versions of `yarn.lock`, the build fails if it is out of date.
 - The production image serves the app with **nginx** (**/docker/nginx.conf**):
   - unknown routes fall back to `index.html` (react router handles them).
   - `Access-Control-Allow-Origin: *` so the host apps can load the files of the current app (fonts, `remotes.json`, ...).
